@@ -1,9 +1,6 @@
 :root {
-  font-family: Inter, sans-serif;
-  font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
-}
-@supports (font-variation-settings: normal) {
-  :root { font-family: InterVariable, sans-serif; }
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
 }
 
 body {
@@ -64,8 +61,8 @@ body {
   text-align: center;
   color: #000;
   background-color: #EAEAEA;
-  font-family: "InterVariable";
-  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
 }
 
 .marquee-container {
@@ -97,8 +94,8 @@ body {
   height: 72px;
   margin-top: 20px;
   padding: 10px 20px;
-  font-family: "InterVariable";
-  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
   font-size: 32px;
   border-radius: 56px;
   background-color: #E7579F;
@@ -117,8 +114,8 @@ body {
   height: 72px;
   margin-top: 20px;
   padding: 10px 20px;
-  font-family: "InterVariable";
-  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
   font-size: 32px;
   border-radius: 56px;
   background-color: #63BC46;
@@ -159,5 +156,3 @@ body {
   color: #000;
   box-shadow: 0 0 10px rgba(0,0,0,0.25);
 }
-
-
