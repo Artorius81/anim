@@ -6,7 +6,7 @@
 }
 
 :root {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter';
   font-weight: 700;
 }
 
@@ -14,7 +14,7 @@ body {
   margin: 0;
   background: #fff;
   color: #fff;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter';
   height: 100vh;
   display: flex;
   align-items: center;
@@ -68,7 +68,7 @@ body {
   text-align: center;
   color: #000;
   background-color: #EAEAEA;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter';
   font-weight: 700;
 }
 
@@ -101,7 +101,7 @@ body {
   height: 72px;
   margin-top: 20px;
   padding: 10px 20px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter';
   font-weight: 700;
   font-size: 32px;
   border-radius: 56px;
@@ -121,7 +121,7 @@ body {
   height: 72px;
   margin-top: 20px;
   padding: 10px 20px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter';
   font-weight: 700;
   font-size: 32px;
   border-radius: 56px;
