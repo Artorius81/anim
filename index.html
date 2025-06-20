@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Аватары</title>
+  <!-- HTML in your document's head -->
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="avatar-container">
+    <div class="avatar-wrapper">
+      <canvas id="avatarCanvas" width="256" height="256"></canvas>
+    </div>
+    <div class="name-field">
+      <input type="text" id="avatarNameInput" placeholder="Введите имя"/>
+    </div>
+    <img src="logo.png" alt="Логотип" class="avatar-logo" />
+  </div>
+
+  <div class="button-group">
+    <button id="generateBtn" class="generateBtn">Попробовать снова</button>
+    <button id="Ilikeit" class="Ilikeit">Мне нравится! ></button>
+  </div>
+
+  <div id="popup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <p>Сохранено!</p>
+    </div>
+  </div>
+
+
+    <div class="marquee-container">
+    <div class="marquee-content" id="marqueeContent">
+      <img src="bottom.png" alt="Бегущее изображение" />
+    </div>
+  </div>
+
+  <script src="avatar.js"></script>
+  <script src="marquee.js"></script>
+</body>
+</html>

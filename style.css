@@ -1,0 +1,163 @@
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+}
+@supports (font-variation-settings: normal) {
+  :root { font-family: InterVariable, sans-serif; }
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #fff;
+  font-family: sans-serif;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-container {
+  position: relative;
+  text-align: center;
+  width: 377.58px;
+  height: 539px;
+  background-color: #EAEAEA;
+  border: 6px solid #F0522C;
+  border-radius: 22.65px;
+  box-sizing: border-box;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 256;
+  height: 256;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#avatarCanvas {
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s ease-in-out;
+}
+.avatar-logo {
+  display: block;
+  width: 87px;
+  height: 31px;
+  margin: 20px auto 31px auto;
+}
+
+.name-field {
+  margin-top: 20px;
+}
+
+.name-field input {
+  padding: 10px;
+  font-size: 30.21px;
+  width: 80%;
+  max-width: 280px;
+  border-radius: 16px;
+  border: none;
+  outline: none;
+  text-align: center;
+  color: #000;
+  background-color: #EAEAEA;
+  font-family: "InterVariable";
+  font-weight: bold;
+}
+
+.marquee-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.marquee-content {
+  display: flex;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.marquee-content img {
+  height: 60px;
+  margin-right: 20px;
+  pointer-events: none;
+}
+
+.generateBtn {
+  width: 402px;
+  height: 72px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-family: "InterVariable";
+  font-weight: bold;
+  font-size: 32px;
+  border-radius: 56px;
+  background-color: #E7579F;
+  color: #fff;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.generateBtn:hover {
+  background-color: #E24493;
+  transform: scale(1.03);
+}
+
+.Ilikeit {
+  width: 402px;
+  height: 72px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-family: "InterVariable";
+  font-weight: bold;
+  font-size: 32px;
+  border-radius: 56px;
+  background-color: #63BC46;
+  color: #fff;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.Ilikeit:hover {
+  background-color: #5aa33d;
+  transform: scale(1.03);
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 87px;
+  gap: 31px;
+}
+
+.popup {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+
+
