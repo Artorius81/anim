@@ -25,110 +25,105 @@ function clamp(val, min, max) {
 }
 
 function generatePoints() {
-  const margin = 15; // Отступ от краёв
-  const bottomY = height - 20;    // Нижние точки (плечи)
-  const middleY = height - 60;    // Точки шеи
-  const shoulderY = height - 90;  // Новые точки плеч, выше шеи
-  const headMinY = 20;            // Верх головы (максимум)
-  const headMaxY = shoulderY - 10; // Нижняя граница головы (ниже плеч)
+  const margin = 10;
+  const bottomY = height - 20;
+  const middleY = height - 80;
+  const topY = 30;
+  const centerX = width / 2;
 
-  // 1. Нижние 2 точки (низ базы)
-  const bottomLeft = { 
-    x: clamp(Math.random() * 40 + 20, margin, width - margin), 
-    y: clamp(bottomY, margin, height - margin) 
-  };
-  const bottomRight = { 
-    x: clamp(width - (Math.random() * 40 + 20), margin, width - margin), 
-    y: clamp(bottomY, margin, height - margin) 
-  };
+  // 1–2. Основание (нижние боковые)
+  const baseSpread = 70 + Math.random() * 20; // от ±70 до ±90
+  const baseLeft = { x: clamp(centerX - baseSpread, margin, width - margin), y: bottomY };
+  const baseRight = { x: clamp(centerX + baseSpread, margin, width - margin), y: bottomY };
 
-  // 2. Точки шеи с одинаковым смещением от нижних точек в разные стороны
-  const neckOffset = Math.random() * 30 + 10; // например, от 5 до 35
+  // 3–4. Нижняя часть формы (шире или уже основания)
+  const lowerSpread = baseSpread + (Math.random() - 0.5) * 80; // разброс ±40 от базы
+  const lowerY = bottomY - 30 + (Math.random() - 0.5) * 5;
+  const lowerLeft = { x: clamp(centerX - lowerSpread, margin, width - margin), y: lowerY };
+  const lowerRight = { x: clamp(centerX + lowerSpread, margin, width - margin), y: lowerY };
 
-  const midLeft = {
-    x: clamp(bottomLeft.x - neckOffset, margin, width - margin),
-    y: clamp(middleY, margin, height - margin)
-  };
+  // 5–6. Плечи (немного внутрь)
+  const shoulderSpread = lowerSpread - (Math.random() * 20); // чуть уже нижней части
+  const shoulderY = middleY + Math.random() * 20;
+  const shoulderLeft = { x: clamp(centerX - shoulderSpread, margin, width - margin), y: shoulderY };
+  const shoulderRight = { x: clamp(centerX + shoulderSpread, margin, width - margin), y: shoulderY };
 
-  const midRight = {
-    x: clamp(bottomRight.x + neckOffset, margin, width - margin),
-    y: clamp(middleY, margin, height - margin)
-  };
+  // 7–8. Новые точки выше плеч (шире плеч по X, с разной высотой)
+  const upperYMin = shoulderY - 50;  // минимум 10-50px выше плеч
+  const upperYMax = shoulderY - 10;
 
+  const upperXVar = 30; // насколько шире плеч по X
 
-  // 3. Точки плеч с одинаковым сужением внутрь от шеи
-  const shoulderInset = Math.random() * 35 + 10; // смещение от 5 до 40
-
-  const shoulderLeft = {
-    x: clamp(midLeft.x + shoulderInset, margin, width - margin),
-    y: clamp(shoulderY, margin, height - margin)
+  const upperLeft = {
+    x: clamp(shoulderLeft.x - (Math.random() * upperXVar + 5), margin, width - margin), // левее плеча на 5..20 пикс
+    y: upperYMin + Math.random() * (upperYMax - upperYMin)  // выше плеч с разбросом
   };
 
-  const shoulderRight = {
-    x: clamp(midRight.x - shoulderInset, margin, width - margin),
-    y: clamp(shoulderY, margin, height - margin)
+  const upperRight = {
+    x: clamp(shoulderRight.x + (Math.random() * upperXVar + 5), margin, width - margin), // правее плеча на 5..20 пикс
+    y: upperYMin + Math.random() * (upperYMax - upperYMin)  // выше плеч с разбросом
   };
 
+  // 9–11. Верхние точки (лево, центр, право)
+  // Центр всегда выше, с большой вариативностью по x и y у всех трёх точек
+  const topCenterXVar = 60; // разброс по x для центра
+  const topSideXMinDist = 50; // мин горизонтальное расстояние от центра до боковых точек
+  const topSideXMaxDist = 100; // макс горизонтальное расстояние от центра до боковых точек
 
-  const headCount = 6;
-  const headPoints = [];
+  const topCenterYMin = topY;        // высота центра — около topY
+  const topCenterYMax = topY + 10;   // небольшой разброс по y, чтобы центр был выше боковых
 
-  const headWidthLeft = shoulderLeft.x;
-  const headWidthRight = shoulderRight.x;
-  const marginYTop = headMinY;             // Верхняя граница головы
-  const marginYBottom = shoulderY - 90;   // Нижняя граница головы (чуть выше плеч)
+  const topSideYMin = topY + 20;     // боковые ниже центра на 20+
+  const topSideYMax = topY + 80;     // с разбросом
 
-  const segmentWidth = (headWidthRight - headWidthLeft) / (headCount - 1);
+  // Координаты центра верхних точек
+  const topCenter = {
+    x: clamp(centerX + (Math.random() - 0.5) * topCenterXVar, margin, width - margin),
+    y: topCenterYMin + Math.random() * (topCenterYMax - topCenterYMin)
+  };
 
-  let prevY = marginYBottom;  // Начинаем с нижней границы (плечи)
+  // Левая верхняя точка — левее центра с разбросом
+  const leftXDist = topSideXMinDist + Math.random() * (topSideXMaxDist - topSideXMinDist);
+  const topLeft = {
+    x: clamp(topCenter.x - leftXDist, margin, width - margin),
+    y: topSideYMin + Math.random() * (topSideYMax - topSideYMin)
+  };
 
-  for (let i = 0; i < headCount; i++) {
-    // X равномерно распределён с небольшим шумом
-    let x = headWidthLeft + segmentWidth * i + (Math.random() - 0.5) * 8;
-    x = clamp(x, margin, width - margin);
+  // Правая верхняя точка — правее центра с разбросом
+  const rightXDist = topSideXMinDist + Math.random() * (topSideXMaxDist - topSideXMinDist);
+  const topRight = {
+    x: clamp(topCenter.x + rightXDist, margin, width - margin),
+    y: topSideYMin + Math.random() * (topSideYMax - topSideYMin)
+  };
 
-    // Ограничиваем изменение по Y чтобы не было резких скачков (максимум ±15 пикселей от предыдущей точки)
-    const minY = Math.max(marginYTop, prevY - 30);
-    const maxY = Math.min(marginYBottom, prevY + 30);
-
-    let y = minY + Math.random() * (maxY - minY);
-    y = clamp(y, marginYTop, marginYBottom);
-
-    prevY = y;
-    headPoints.push({ x, y });
-  }
-
-
-
-
-
-  // Итог: точки в порядке слева направо
+  // Возвращаем точки в нужном порядке (11 точек)
   return [
-    bottomLeft,
-    midLeft,
+    baseLeft,
+    lowerLeft,
     shoulderLeft,
-    ...headPoints,
+    upperLeft,
+    topLeft,
+    topCenter,
+    topRight,
+    upperRight,
     shoulderRight,
-    midRight,
-    bottomRight
+    lowerRight,
+    baseRight
   ];
 }
-
-
-
-
-
 
 function lerp(a, b, t) {
   return a + (b - a) * t;
 }
 
 function interpolatePoints(p1, p2, t) {
-  return p1.map((pt, i) => ({
-    x: lerp(pt.x, p2[i].x, t),
-    y: lerp(pt.y, p2[i].y, t)
+  const minLength = Math.min(p1.length, p2.length);
+  return Array.from({ length: minLength }, (_, i) => ({
+    x: lerp(p1[i].x, p2[i].x, t),
+    y: lerp(p1[i].y, p2[i].y, t),
   }));
 }
+
 
 function interpolateColor(c1, c2, t) {
   const parseHex = hex => [
@@ -165,32 +160,12 @@ function drawShape(points, fillColor) {
 
   ctx.save();
   ctx.beginPath();
-  const radius = 2;
-  for (let i = 0; i < points.length; i++) {
-    const prev = points[(i - 1 + points.length) % points.length];
-    const curr = points[i];
-    const next = points[(i + 1) % points.length];
 
-    const dx1 = curr.x - prev.x;
-    const dy1 = curr.y - prev.y;
-    const dx2 = next.x - curr.x;
-    const dy2 = next.y - curr.y;
-
-    const len1 = Math.hypot(dx1, dy1);
-    const len2 = Math.hypot(dx2, dy2);
-    const r1 = Math.min(radius, len1 / 2);
-    const r2 = Math.min(radius, len2 / 2);
-
-    const p1x = curr.x - dx1 / len1 * r1;
-    const p1y = curr.y - dy1 / len1 * r1;
-    const p2x = curr.x + dx2 / len2 * r2;
-    const p2y = curr.y + dy2 / len2 * r2;
-
-    if (i === 0) ctx.moveTo(p1x, p1y);
-    else ctx.lineTo(p1x, p1y);
-
-    ctx.quadraticCurveTo(curr.x, curr.y, p2x, p2y);
-  }
+  // ОСТРЫЕ ЛИНИИ: просто соединяем точки по порядку
+  points.forEach((pt, i) => {
+    if (i === 0) ctx.moveTo(pt.x, pt.y);
+    else ctx.lineTo(pt.x, pt.y);
+  });
   ctx.closePath();
   ctx.clip();
 
@@ -198,39 +173,20 @@ function drawShape(points, fillColor) {
   ctx.fillRect(0, 0, width, height);
   ctx.restore();
 
+  // Обводка — острые углы
   ctx.beginPath();
-  for (let i = 0; i < points.length; i++) {
-    const prev = points[(i - 1 + points.length) % points.length];
-    const curr = points[i];
-    const next = points[(i + 1) % points.length];
-
-    const dx1 = curr.x - prev.x;
-    const dy1 = curr.y - prev.y;
-    const dx2 = next.x - curr.x;
-    const dy2 = next.y - curr.y;
-
-    const len1 = Math.hypot(dx1, dy1);
-    const len2 = Math.hypot(dx2, dy2);
-    const r1 = Math.min(radius, len1 / 2);
-    const r2 = Math.min(radius, len2 / 2);
-
-    const p1x = curr.x - dx1 / len1 * r1;
-    const p1y = curr.y - dy1 / len1 * r1;
-    const p2x = curr.x + dx2 / len2 * r2;
-    const p2y = curr.y + dy2 / len2 * r2;
-
-    if (i === 0) ctx.moveTo(p1x, p1y);
-    else ctx.lineTo(p1x, p1y);
-
-    ctx.quadraticCurveTo(curr.x, curr.y, p2x, p2y);
-  }
+  points.forEach((pt, i) => {
+    if (i === 0) ctx.moveTo(pt.x, pt.y);
+    else ctx.lineTo(pt.x, pt.y);
+  });
   ctx.closePath();
-  ctx.lineJoin = "round";
-  ctx.lineCap = "round";
+  ctx.lineJoin = "miter"; // острые углы вместо round
+  ctx.lineCap = "butt";   // острые концы линий
   ctx.lineWidth = 7;
   ctx.strokeStyle = "#ffffff";
   ctx.stroke();
 }
+
 
 function getEyeY(points) {
   const avgY = points.reduce((sum, p) => sum + p.y, 0) / points.length;
@@ -289,6 +245,11 @@ let currentPoints = generatePoints();
 let currentColor = getRandomGridColor();
 let currentEyes = generateEyeState(currentPoints);
 
+function cubicBezierEase(t, p0 = 0, p1 = 0.42, p2 = 0.58, p3 = 1) {
+  const u = 1 - t;
+  return u**3 * p0 + 3 * u**2 * t * p1 + 3 * u * t**2 * p2 + t**3 * p3;
+}
+
 function animateAvatar() {
   if (animating) return;
   animating = true;
@@ -304,7 +265,8 @@ function animateAvatar() {
 
   const animation = setInterval(() => {
     t++;
-    const progress = t / steps;
+    const linearProgress = t / steps;
+    const progress = cubicBezierEase(linearProgress);
 
     const morph = interpolatePoints(currentPoints, newPoints, progress);
     const color = interpolateColor(currentColor, newColor, progress);
@@ -323,6 +285,7 @@ function animateAvatar() {
     }
   }, interval);
 }
+
 
 btn.addEventListener("click", animateAvatar);
 
@@ -369,4 +332,3 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
-
